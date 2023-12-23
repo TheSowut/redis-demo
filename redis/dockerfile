@@ -1,0 +1,4 @@
+FROM redis:7.2.3-alpine
+WORKDIR /redis
+COPY . .
+EXPOSE 6379
