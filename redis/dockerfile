@@ -1,4 +1,2 @@
-FROM redis:7.2.3-alpine
-WORKDIR /redis
-COPY . .
+FROM redis:latest
 EXPOSE 6379
