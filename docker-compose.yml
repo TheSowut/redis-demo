@@ -4,7 +4,9 @@ services:
     build:
       context: ./server/
     ports:
-      - 8090:8080
+      - 8080:8080
+    network_mode: 'host'
+
   redis:
     build:
       context: ./redis/
