@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the Redis container name and port
-container_name="redis-demo-redis"
+container_name="redis-demo-redis-1"
 
 # Redis CLI command to set key-value pairs
 redis_cmd="docker exec -i $container_name redis-cli"

@@ -4,4 +4,9 @@ services:
     build:
       context: ./server/
     ports:
-      - 8080:8080
+      - 8090:8080
+  redis:
+    build:
+      context: ./redis/
+    ports:
+      - 6379:6379
