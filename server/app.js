@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,22 +35,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
-window.addEventListener('load', function () { return __awaiter(_this, void 0, void 0, function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+// /** @type {import("express").RequestHandler} */
+var express_1 = require("express");
+var redis_1 = require("./redis");
+var app = (0, express_1.default)();
+var cors = require('cors');
+var port = 8080;
+app.use(cors());
+app.get('/', function (_, res) {
+    res.sendStatus(200);
+});
+app.get('/test', function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var a;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, fetch('http://www.localhost:8080', {
-                    headers: {
-                        'Accept': 'application/javascript',
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    method: 'GET'
-                })
-                    // .then(res => res.json());
-                    .then(console.log)];
+            case 0: return [4 /*yield*/, redis_1.default.set('key', Date.now())];
             case 1:
                 _a.sent();
+                return [4 /*yield*/, redis_1.default.get('key')];
+            case 2:
+                a = _a.sent();
+                res.send({
+                    status: 200,
+                    date: a
+                });
                 return [2 /*return*/];
         }
     });
 }); });
+app.listen(port, function () { return console.log("Listening on localhost:".concat(port)); });

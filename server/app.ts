@@ -12,18 +12,14 @@ app.get('/', (_, res) => {
     res.sendStatus(200);
 });
 
-app.get('/test', async (_, res) => {
+app.get('/time', async (_, res) => {
+    await redis.set('key', Date.now());
+    const timestamp = await redis.get('key');
+
     res.send({
         status: 200,
-        mesage: "asd"
-    })
-    // await redis.set('key', Date.now());
-    // const a = await redis.get('key');
-
-    // res.send({
-    //     status: 200,
-    //     date: a
-    // });
+        date: timestamp
+    });
 });
 
 app.listen(port, () => console.log(`Listening on localhost:${port}`));
