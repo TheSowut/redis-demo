@@ -40,25 +40,30 @@ window.addEventListener('load', function () { return __awaiter(_this, void 0, vo
     var _a;
     return __generator(this, function (_b) {
         (_a = document.querySelector('#getButton')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () { return __awaiter(_this, void 0, void 0, function () {
-            var value, result;
+            var getInputField, getValue, setInputField, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        value = document.querySelector('#getInput').value;
-                        if (!value)
+                        getInputField = document.querySelector('#getInput');
+                        getValue = getInputField.value;
+                        setInputField = document.querySelector('#setInput');
+                        if (!getValue)
                             return [2 /*return*/];
-                        return [4 /*yield*/, fetch("http://www.localhost:8080/".concat(value), {
+                        return [4 /*yield*/, fetch("http://www.localhost:8080/parameter/".concat(getValue), {
                                 headers: {
                                     'Content-Type': 'application/x-www-form-urlencoded',
                                 },
                                 method: 'GET'
                             })
                                 .then(function (res) { return res.json(); })
-                                .catch(function (err) { return alert(err); })];
+                                .catch(function (_) {
+                                alert('Not Found');
+                                setInputField === null || setInputField === void 0 ? void 0 : setInputField.setAttribute('value', '');
+                            })];
                     case 1:
                         result = _a.sent();
                         if (result) {
-                            document.querySelector('#setInput').setAttribute('value', result.date);
+                            setInputField.setAttribute('value', result.data);
                         }
                         return [2 /*return*/];
                 }

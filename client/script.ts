@@ -1,20 +1,25 @@
 window.addEventListener('load', async () => {
 
     document.querySelector('#getButton')?.addEventListener('click', async () => {
-        const value: string | null = (document.querySelector('#getInput') as HTMLInputElement).value;
-        if (!value) return;
+        const getInputField: HTMLInputElement = document.querySelector('#getInput')!;
+        const getValue: string | null = getInputField.value;
+        const setInputField: HTMLInputElement = document.querySelector('#setInput')!;
+        if (!getValue) return;
 
-        const result = await fetch(`http://www.localhost:8080/${value}`, {
+        const result = await fetch(`http://www.localhost:8080/parameter/${getValue}`, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             method: 'GET'
         })
             .then(res => res.json())
-            .catch(err => alert(err));
+            .catch(_ => {
+                alert('Not Found');
+                setInputField?.setAttribute('value', '');
+            });
 
         if (result) {
-            (document.querySelector('#setInput') as HTMLInputElement).setAttribute('value', result.date);
+            setInputField.setAttribute('value', result.data);
         }
     });
 });
