@@ -39,18 +39,27 @@ window.addEventListener('load', function () { return __awaiter(_this, void 0, vo
     var _this = this;
     var _a;
     return __generator(this, function (_b) {
-        (_a = document.querySelector('#test')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () { return __awaiter(_this, void 0, void 0, function () {
+        (_a = document.querySelector('#getButton')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () { return __awaiter(_this, void 0, void 0, function () {
+            var value, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, fetch('http://www.localhost:8080/time', {
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            method: 'GET'
-                        })
-                            .then(function (res) { return res.body; })];
+                    case 0:
+                        value = document.querySelector('#getInput').value;
+                        if (!value)
+                            return [2 /*return*/];
+                        return [4 /*yield*/, fetch("http://www.localhost:8080/".concat(value), {
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                method: 'GET'
+                            })
+                                .then(function (res) { return res.json(); })
+                                .catch(function (err) { return alert(err); })];
                     case 1:
-                        _a.sent();
+                        result = _a.sent();
+                        if (result) {
+                            document.querySelector('#setInput').setAttribute('value', result.date);
+                        }
                         return [2 /*return*/];
                 }
             });
