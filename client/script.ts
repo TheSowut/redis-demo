@@ -18,8 +18,30 @@ window.addEventListener('load', async () => {
                 setInputField?.setAttribute('value', '');
             });
 
-        if (result) {
+        if (result.data) {
             setInputField.setAttribute('value', result.data);
         }
+    });
+
+    document.querySelector('#setButton')?.addEventListener('click', async () => {
+        const getInputField: HTMLInputElement = document.querySelector('#getInput')!;
+        const getValue: string | null = getInputField.value;
+        const setInputField: HTMLInputElement = document.querySelector('#setInput')!;
+        const setValue: string | null = setInputField.value;
+        if (!getValue || !setValue) return;
+
+        await fetch(`http://www.localhost:8080/parameter/${getValue}`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data: setValue }),
+            method: 'POST',
+        })
+            .then(res => res.json())
+            .catch(e => {
+                alert(e);
+            })
+
+        setInputField?.setAttribute('value', '');
     });
 });
