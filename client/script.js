@@ -10,10 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 window.addEventListener('load', () => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
+    const getInputField = document.querySelector('#getInput');
+    const setInputField = document.querySelector('#setInput');
     (_a = document.querySelector('#getButton')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
-        const getInputField = document.querySelector('#getInput');
         const getValue = getInputField.value;
-        const setInputField = document.querySelector('#setInput');
         if (!getValue)
             return;
         const result = yield fetch(`http://www.localhost:8080/parameter/${getValue}`, {
@@ -25,19 +25,21 @@ window.addEventListener('load', () => __awaiter(void 0, void 0, void 0, function
             .then(res => res.json())
             .catch(_ => {
             alert('Not Found');
-            setInputField === null || setInputField === void 0 ? void 0 : setInputField.setAttribute('value', '');
+            setInputField.value = '';
         });
         if (result.data) {
-            setInputField.setAttribute('value', result.data);
+            setInputField.value = result.data;
         }
     }));
     (_b = document.querySelector('#setButton')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
-        const getInputField = document.querySelector('#getInput');
         const getValue = getInputField.value;
-        const setInputField = document.querySelector('#setInput');
         const setValue = setInputField.value;
-        if (!getValue || !setValue)
+        if (!getValue || !setValue) {
+            alert('Both values must be set!');
+            getInputField.value = '';
+            setInputField.value = '';
             return;
+        }
         yield fetch(`http://www.localhost:8080/parameter/${getValue}`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -46,9 +48,10 @@ window.addEventListener('load', () => __awaiter(void 0, void 0, void 0, function
             method: 'POST',
         })
             .then(res => res.json())
+            .then(_ => alert('Value has been set.'))
+            .then(_ => setInputField.value = '')
             .catch(e => {
             alert(e);
         });
-        setInputField === null || setInputField === void 0 ? void 0 : setInputField.setAttribute('value', '');
     }));
 }));
