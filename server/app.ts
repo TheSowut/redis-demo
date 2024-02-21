@@ -33,10 +33,26 @@ app.post('/parameter/:id', async (req, res) => {
     const id: string = req.params.id;
     const payload = req.body.data;
 
-    redis.set(id, payload);
+    await redis.set(id, payload);
     res.send({
         status: 200,
         data: payload
+    });
+});
+
+app.delete('/parameter/:id', async (req, res) => {
+    const id: string = req.params.id;
+    const value = await redis.get(id);
+
+    if (!value) {
+        res.sendStatus(404);
+        return;
+    }
+
+    redis.del(id);
+    res.send({
+        status: 200,
+        data: id
     });
 })
 

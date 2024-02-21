@@ -1,10 +1,11 @@
 enum ENDPOINTS {
-    PARAMETER = 'http://www.localhost:8080/parameter/'
+    PARAMETER = 'http://www.localhost:8080/parameter'
 }
 
 enum MESSAGES {
     NOT_FOUND = 'Not Found!',
     KEY_MISSING = 'Key Missing!',
+    KEY_DELETED = 'Key has been deleted!',
     VALUE_MISSING = 'Value Missing!',
     KEY_AND_VALUE_MISSING = 'Both Key and Value must be set!',
     VALUE_SET = 'Value has been set!'
@@ -56,8 +57,42 @@ window.addEventListener('load', async () => {
             .then(res => res.json())
             .then(_ => alert(MESSAGES.VALUE_SET))
             .then(_ => setInputField.value = '')
-            .catch(e => {
-                alert(e);
-            });
+            .catch(e => alert(e))
     });
+
+    document.querySelector('#delButton')?.addEventListener('click', async () => {
+        const getValue: string | null = getInputField.value;
+        if (!getValue) {
+            alert(MESSAGES.KEY_MISSING);
+            return;
+        }
+
+        await fetch(`${ENDPOINTS.PARAMETER}/${getValue}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                // You may include additional headers if required
+            },
+        })
+        .then(res => res.json())
+        .then(console.log)
+        .then(_ => {
+            alert(MESSAGES.KEY_DELETED);
+            getInputField.value = '';
+            setInputField.value = '';
+        })
+        // BUG: not shown
+        .catch(e => MESSAGES.NOT_FOUND);
+    })
+
+    //     await fetch(`${ENDPOINTS.PARAMETER}/${getValue}`, {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         method: 'DELETE'
+    //     })
+    //         .then(res => res.json())
+    //         .then(_ => alert('test'))
+    //         .catch(e => alert(e))
+    // });
 });

@@ -10,18 +10,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 var ENDPOINTS;
 (function (ENDPOINTS) {
-    ENDPOINTS["PARAMETER"] = "http://www.localhost:8080/parameter/";
+    ENDPOINTS["PARAMETER"] = "http://www.localhost:8080/parameter";
 })(ENDPOINTS || (ENDPOINTS = {}));
 var MESSAGES;
 (function (MESSAGES) {
     MESSAGES["NOT_FOUND"] = "Not Found!";
     MESSAGES["KEY_MISSING"] = "Key Missing!";
+    MESSAGES["KEY_DELETED"] = "Key has been deleted!";
     MESSAGES["VALUE_MISSING"] = "Value Missing!";
     MESSAGES["KEY_AND_VALUE_MISSING"] = "Both Key and Value must be set!";
     MESSAGES["VALUE_SET"] = "Value has been set!";
 })(MESSAGES || (MESSAGES = {}));
 window.addEventListener('load', () => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a, _b, _c;
     const getInputField = document.querySelector('#getInput');
     const setInputField = document.querySelector('#setInput');
     (_a = document.querySelector('#getButton')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -62,8 +63,39 @@ window.addEventListener('load', () => __awaiter(void 0, void 0, void 0, function
             .then(res => res.json())
             .then(_ => alert(MESSAGES.VALUE_SET))
             .then(_ => setInputField.value = '')
-            .catch(e => {
-            alert(e);
-        });
+            .catch(e => alert(e));
     }));
+    (_c = document.querySelector('#delButton')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
+        const getValue = getInputField.value;
+        if (!getValue) {
+            alert(MESSAGES.KEY_MISSING);
+            return;
+        }
+        yield fetch(`${ENDPOINTS.PARAMETER}/${getValue}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                // You may include additional headers if required
+            },
+        })
+            .then(res => res.json())
+            .then(console.log)
+            .then(_ => {
+            alert(MESSAGES.KEY_DELETED);
+            getInputField.value = '';
+            setInputField.value = '';
+        })
+            // BUG: not shown
+            .catch(e => MESSAGES.NOT_FOUND);
+    }));
+    //     await fetch(`${ENDPOINTS.PARAMETER}/${getValue}`, {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         method: 'DELETE'
+    //     })
+    //         .then(res => res.json())
+    //         .then(_ => alert('test'))
+    //         .catch(e => alert(e))
+    // });
 }));
