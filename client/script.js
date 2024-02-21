@@ -8,6 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var ENDPOINTS;
+(function (ENDPOINTS) {
+    ENDPOINTS["PARAMETER"] = "http://www.localhost:8080/parameter/";
+})(ENDPOINTS || (ENDPOINTS = {}));
+var MESSAGES;
+(function (MESSAGES) {
+    MESSAGES["NOT_FOUND"] = "Not Found!";
+    MESSAGES["KEY_MISSING"] = "Key Missing!";
+    MESSAGES["VALUE_MISSING"] = "Value Missing!";
+    MESSAGES["KEY_AND_VALUE_MISSING"] = "Both Key and Value must be set!";
+    MESSAGES["VALUE_SET"] = "Value has been set!";
+})(MESSAGES || (MESSAGES = {}));
 window.addEventListener('load', () => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const getInputField = document.querySelector('#getInput');
@@ -16,7 +28,7 @@ window.addEventListener('load', () => __awaiter(void 0, void 0, void 0, function
         const getValue = getInputField.value;
         if (!getValue)
             return;
-        const result = yield fetch(`http://www.localhost:8080/parameter/${getValue}`, {
+        const result = yield fetch(`${ENDPOINTS.PARAMETER}/${getValue}`, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
@@ -24,7 +36,7 @@ window.addEventListener('load', () => __awaiter(void 0, void 0, void 0, function
         })
             .then(res => res.json())
             .catch(_ => {
-            alert('Not Found');
+            alert(MESSAGES.NOT_FOUND);
             setInputField.value = '';
         });
         if (result.data) {
@@ -35,12 +47,12 @@ window.addEventListener('load', () => __awaiter(void 0, void 0, void 0, function
         const getValue = getInputField.value;
         const setValue = setInputField.value;
         if (!getValue || !setValue) {
-            alert('Both values must be set!');
+            alert(MESSAGES.KEY_AND_VALUE_MISSING);
             getInputField.value = '';
             setInputField.value = '';
             return;
         }
-        yield fetch(`http://www.localhost:8080/parameter/${getValue}`, {
+        yield fetch(`${ENDPOINTS.PARAMETER}/${getValue}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -48,7 +60,7 @@ window.addEventListener('load', () => __awaiter(void 0, void 0, void 0, function
             method: 'POST',
         })
             .then(res => res.json())
-            .then(_ => alert('Value has been set.'))
+            .then(_ => alert(MESSAGES.VALUE_SET))
             .then(_ => setInputField.value = '')
             .catch(e => {
             alert(e);

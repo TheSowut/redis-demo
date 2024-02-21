@@ -1,3 +1,15 @@
+enum ENDPOINTS {
+    PARAMETER = 'http://www.localhost:8080/parameter/'
+}
+
+enum MESSAGES {
+    NOT_FOUND = 'Not Found!',
+    KEY_MISSING = 'Key Missing!',
+    VALUE_MISSING = 'Value Missing!',
+    KEY_AND_VALUE_MISSING = 'Both Key and Value must be set!',
+    VALUE_SET = 'Value has been set!'
+}
+
 window.addEventListener('load', async () => {
     const getInputField: HTMLInputElement = document.querySelector('#getInput')!;
     const setInputField: HTMLInputElement = document.querySelector('#setInput')!;
@@ -6,7 +18,7 @@ window.addEventListener('load', async () => {
         const getValue: string | null = getInputField.value;
         if (!getValue) return;
 
-        const result = await fetch(`http://www.localhost:8080/parameter/${getValue}`, {
+        const result = await fetch(`${ENDPOINTS.PARAMETER}/${getValue}`, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
@@ -14,7 +26,7 @@ window.addEventListener('load', async () => {
         })
             .then(res => res.json())
             .catch(_ => {
-                alert('Not Found');
+                alert(MESSAGES.NOT_FOUND);
                 setInputField.value = '';
             });
 
@@ -28,13 +40,13 @@ window.addEventListener('load', async () => {
         const setValue: string | null = setInputField.value;
 
         if (!getValue || !setValue) {
-            alert('Both values must be set!');
+            alert(MESSAGES.KEY_AND_VALUE_MISSING);
             getInputField.value = '';
             setInputField.value = '';
             return;
         }
 
-        await fetch(`http://www.localhost:8080/parameter/${getValue}`, {
+        await fetch(`${ENDPOINTS.PARAMETER}/${getValue}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -42,7 +54,7 @@ window.addEventListener('load', async () => {
             method: 'POST',
         })
             .then(res => res.json())
-            .then(_ => alert('Value has been set.'))
+            .then(_ => alert(MESSAGES.VALUE_SET))
             .then(_ => setInputField.value = '')
             .catch(e => {
                 alert(e);
