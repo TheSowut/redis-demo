@@ -4,20 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link href="./output.css" rel="stylesheet"> -->
+      <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
     <title>Document</title>
 </head>
 
-<body>
+<body class="flex items-center justify-center h-screen bg-gray-200">
     <main>
-        <div class="buttons">
-            <button id="getButton">GET</button>
-            <button id="setButton">SET</button>
-            <button id="delButton">DELETE</button>
+        <div class="flex justify-around mb-2">
+            <button id="getButton" class="hover:text-blue-500">GET</button>
+            <button id="setButton" class="hover:text-blue-500">SET</button>
+            <button id="delButton" class="hover:text-blue-500">DELETE</button>
         </div>
 
         <div class="content">
-            <input id="getInput" type="text">
-            <input id="setInput" type="text">
+            <input id="getInput" type="text" class="mt-1 p-2 w-50 border rounded-md focus:outline-none focus:border-blue-500">
+            <input id="setInput" type="text" class="mt-1 p-2 w-50 border rounded-md focus:outline-none focus:border-blue-500">
         </div>
     </main>
 </body>
