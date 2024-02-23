@@ -42,8 +42,6 @@ window.addEventListener('load', async () => {
 
         if (!getValue || !setValue) {
             alert(MESSAGES.KEY_AND_VALUE_MISSING);
-            getInputField.value = '';
-            setInputField.value = '';
             return;
         }
 
@@ -81,18 +79,6 @@ window.addEventListener('load', async () => {
             getInputField.value = '';
             setInputField.value = '';
         })
-        // BUG: not shown
-        .catch(e => MESSAGES.NOT_FOUND);
+        .catch(e => alert(MESSAGES.NOT_FOUND));
     })
-
-    //     await fetch(`${ENDPOINTS.PARAMETER}/${getValue}`, {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         method: 'DELETE'
-    //     })
-    //         .then(res => res.json())
-    //         .then(_ => alert('test'))
-    //         .catch(e => alert(e))
-    // });
 });
